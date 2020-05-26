@@ -2,10 +2,11 @@ from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from resources.user import LogIn, SignIn, Delete, Update
+from decouple import config
 import os
 
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = 'p0auioç7kmçApqRBhxlÇ23'  # TODO Colocar uma key melhor e em um arquivo .env
+app.config['JWT_SECRET_KEY'] = config('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 api = Api(app)
 api.add_resource(LogIn, '/login')
