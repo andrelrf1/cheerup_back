@@ -8,6 +8,8 @@ class User:
     birth_date = None
     email = None
     password = None
+    personality = None
+    diary_id = None
 
     def create_user(self):
         if not (all([self.first_name, self.last_name, self.birth_date, self.email, self.password])):
@@ -18,7 +20,9 @@ class User:
             'last_name': self.last_name,
             'birth_date': self.birth_date,
             'email': self.email,
-            'password': self.password
+            'password': self.password,
+            'personality': self.personality,
+            'diary_id': self.diary_id
         })
         return True
 
@@ -48,6 +52,8 @@ class User:
         self.birth_date = values[0]['birth_date']
         self.email = values[0]['email']
         self.password = values[0]['password']
+        self.personality = values[0]['personality']
+        self.diary_id = values[0]['diary_id']
         return True
 
     def user_data(self):
@@ -56,7 +62,7 @@ class User:
             'first_name': self.first_name,
             'last_name': self.last_name,
             'birth_date': self.birth_date,
-            'email': self.email
+            'email': self.email,
         }
 
     def update_user(self):
@@ -65,7 +71,8 @@ class User:
             'last_name': self.last_name,
             'birth_date': self.birth_date,
             'email': self.email,
-            'password': self.password
+            'password': self.password,
+            'personality': self.personality
         }
         fire_base.update('users', self.user_id, user_data)
         return True
