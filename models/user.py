@@ -1,4 +1,5 @@
 import fire_base
+from models.diary import Diary
 
 
 class User:
@@ -15,19 +16,21 @@ class User:
         if not (all([self.first_name, self.last_name, self.birth_date, self.email, self.password])):
             raise TypeError('Many attributes are empty')
 
+        diary = Diary()
+        diary_id = diary.create_diary()
         fire_base.create('users', {
             'first_name': self.first_name,
             'last_name': self.last_name,
             'birth_date': self.birth_date,
             'email': self.email,
             'password': self.password,
-            'personality': self.personality,
-            'diary_id': self.diary_id
+            'personality': {'data': 'empty'},
+            'diary_id': diary_id
         })
         return True
 
     def get_user_by_id(self, user_id: str):
-        result = fire_base.get_id('users', user_id)
+        result = fire_base.get_by_id('users', user_id)
         if result is None:
             return False
 
@@ -41,7 +44,7 @@ class User:
         return True
 
     def get_user_by_email(self, email: str):
-        result = fire_base.get_param('users', 'email', email)
+        result = fire_base.get_by_param('users', 'email', email)
         if result is None:
             return False
 
@@ -80,3 +83,9 @@ class User:
     def delete_user(self):
         fire_base.delete('users', self.user_id)
         return True
+
+    def add_personality(self):
+        pass
+
+    def update_personality(self):
+        pass

@@ -18,31 +18,34 @@ __db = __firebase.database()
 
 
 def create(collection: str, data: dict):
-    __db.child(collection).push(data)
+    data = __db.child(collection).push(data)
+    return data
 
 
 def update(collection: str, document_id: str, data: dict):
     __db.child(collection).child(document_id).update(data)
 
 
-def get_id(collection: str, document_id: str):
+def get_by_id(collection: str, document_id: str):
     collection_data = __db.child(collection).get()
     data = None
-    for document in collection_data.each():
-        if document.key() == document_id:
-            data = {document.key(): document.val()}
-            break
+    if collection_data.each():
+        for document in collection_data.each():
+            if document.key() == document_id:
+                data = {document.key(): document.val()}
+                break
 
     return data
 
 
-def get_param(collection: str, param: str, value):
+def get_by_param(collection: str, param: str, value):
     collection_data = __db.child(collection).get()
     data = None
-    for document in collection_data.each():
-        if document.val()[param] == value:
-            data = {document.key(): document.val()}
-            break
+    if collection_data.each():
+        for document in collection_data.each():
+            if document.val()[param] == value:
+                data = {document.key(): document.val()}
+                break
 
     return data
 
