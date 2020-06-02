@@ -73,27 +73,3 @@ class User:
     def delete_user(self):
         fire_base.delete('users', self.user_id)
         return True
-
-
-class Diario:
-    user = User.user_id
-    date = None
-    emocao = None
-    comentario = None
-
-    def create_diario(self):
-        if not (all(self.emocao)):
-            raise TypeError('Many attributes are empty')
-
-        fire_base.create('diario', {
-            'date': self.date,
-            'emocao': self.emocao,
-            'comentario': self.comentario
-        })
-        return True
-
-    def get(self, user):
-        if user not in User:
-            return "Not found", 404
-        else:
-            return Diario[User.user_id]
