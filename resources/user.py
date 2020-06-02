@@ -2,6 +2,7 @@ from flask import request
 from flask_restful import Resource
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from models.user import User
+from models.user import Diario
 from utils.jwt_validator import validate
 import datetime
 import hashlib
@@ -113,3 +114,24 @@ class Update(Resource):
             return {'message': 'The user could not be found', 'success': False}, 500
 
         return {'message': 'Invalid JWT token', 'success': False}, 400
+
+class DiarioIn(Resource):
+
+    def post(self):
+        data = request.json
+        diario = Diario()
+        try:
+            if not diario.create_diario():
+                diario.date = data['date']
+                diario.emocao = data['emocao']
+                diario.comentario = data['comentario']
+                if diario.create_diario():
+                    return {'message': 'User created', 'success': True}, 201
+
+                return {'message': 'The user could not be created', 'success': False}, 500
+
+            return {'message': 'The email is already in use', 'success': False}, 400
+
+        except KeyError as err:
+            return {'message': f'{err} is required', 'success': False}, 400
+

@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Api
 from flask_jwt_extended import JWTManager
-from resources.user import LogIn, SignIn, Delete, Update
+from resources.user import LogIn, SignIn, Delete, Update, DiarioIn
 from decouple import config
 import os
 
@@ -13,6 +13,7 @@ api.add_resource(LogIn, '/login')
 api.add_resource(SignIn, '/signin')
 api.add_resource(Delete, '/user/delete')
 api.add_resource(Update, '/user/update')
+api.add_resource(DiarioIn, '/diario')
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
